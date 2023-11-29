@@ -1,35 +1,27 @@
 ---
 
 - hosts: all
-  become: true
+  become: false 
   pre_tasks:
 
-  - name: install updates (Rocky)
+  - name: install updates (MacOSX)
     tags: always
-    dnf:
-      update_only: yes
-      update_cache: yes
-    when: ansible_distribution == "Rocky"
-
-  - name: install updates (Ubuntu)
-    tags: always
-    apt:
-      upgrade: dist
-      update_cache: yes
-    when: ansible_distribution == "Ubuntu"
+    package:
+      update_homebrew: yes
+    when: ansible_distribution == "MacOSX"
 
 
 - hosts: workstations
-  become: true
+  become: false 
   tasks:
 
   - name: install unzip
     package:
       name: unzip
 
-  - name: install terraform
+  - name: install opentofu (terraform replacement)
     unarchive:
-      src: https://releases.hashicorp.com/terraform/1.6.5/terraform_1.6.5_darwin_arm64.zip      
+      src: https://github.com/opentofu/opentofu/releases/download/v1.6.0-beta1/tofu_1.6.0-beta1_darwin_arm64.zip 
       dest: /usr/local/bin
       remote_src: yes
       mode: 0755
