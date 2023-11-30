@@ -19,7 +19,7 @@
     tags: always
     user:
       name: simone
-      groups: root
+      group: admin
 
   - name: add ssh key for simone
     tags: always
@@ -33,5 +33,5 @@
       src: sudoer_simone
       dest: /etc/sudoers.d/simone
       owner: root
-      group: root
+      group: admin 
       mode: 0440
