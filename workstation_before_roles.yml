@@ -1,0 +1,29 @@
+---
+
+- hosts: all
+  become: false 
+  pre_tasks:
+
+  - name: install updates (MacOSX)
+    tags: always
+    package:
+      update_homebrew: yes
+    when: ansible_distribution == "MacOSX"
+
+
+- hosts: workstations
+  become: false 
+  tasks:
+
+  - name: install unzip
+    package:
+      name: unzip
+
+  - name: install opentofu (terraform replacement)
+    unarchive:
+      src: https://github.com/opentofu/opentofu/releases/download/v1.6.0-beta1/tofu_1.6.0-beta1_darwin_arm64.zip 
+      dest: /usr/local/bin
+      remote_src: yes
+      mode: 0755
+      owner: don 
+      group: admin
